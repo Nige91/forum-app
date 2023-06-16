@@ -1,11 +1,6 @@
 import React from 'react';
 import Post from './Post';
-
-export interface PostData {
-  username: string;
-  content: string;
-  date: Date;
-}
+import {PostData} from "../interfaces.ts";
 
 interface ThreadProps {
   title: string;
