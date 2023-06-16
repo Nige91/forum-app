@@ -1,0 +1,3 @@
+I have already initialized firebase with the function firebase.initializeApp(firebaseConfig). Now i want to implement a FirebaseService.ts class which implements crud operations.
+
+The first route should fetch from the collection 'posts' which contains documents having the three fields 'username', 'content' and 'date'
