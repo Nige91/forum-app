@@ -1,36 +1,61 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import {Thread, PostData} from './components/Thread'
 function App() {
-  const [count, setCount] = useState(0)
+  const discussion: PostData[] = [
+    {
+      username: "Gamer123",
+      content: "I think Xbox is superior because of its powerful hardware and extensive backward compatibility.",
+      date: new Date("2023-06-15T09:12")
+    },
+    {
+      username: "PlaystationFan",
+      content: "But PlayStation has a better lineup of exclusive games that you can't find anywhere else!",
+      date: new Date("2023-06-15T09:25")
+    },
+    {
+      username: "Gamer123",
+      content: "That's true, PlayStation does have some great exclusives. But Xbox Game Pass offers a huge library of games for a low monthly fee!",
+      date: new Date("2023-06-15T10:03")
+    },
+    {
+      username: "PlaystationFan",
+      content: "PlayStation Plus also provides free monthly games and exclusive discounts, which adds value to the console.",
+      date: new Date("2023-06-15T10:18")
+    },
+    {
+      username: "Gamer123",
+      content: "I can't deny the value of PlayStation Plus, but Xbox Live Gold offers similar benefits and an excellent online gaming experience.",
+      date: new Date("2023-06-15T10:42")
+    },
+    {
+      username: "PlaystationFan",
+      content: "Fair point, but I find the PlayStation controller more comfortable and intuitive for gaming.",
+      date: new Date("2023-06-15T11:09")
+    },
+    {
+      username: "Gamer123",
+      content: "That's subjective, but I do appreciate the Xbox controller's ergonomic design and customizable features.",
+      date: new Date("2023-06-15T11:32")
+    },
+    {
+      username: "PlaystationFan",
+      content: "Agreed, personal preference plays a big role in choosing a console. Both Xbox and PlayStation have their strengths.",
+      date: new Date("2023-06-15T12:07")
+    },
+    {
+      username: "Gamer123",
+      content: "Absolutely! It ultimately comes down to the games and features that matter most to each individual gamer.",
+      date: new Date("2023-06-15T12:26")
+    },
+    {
+      username: "PlaystationFan",
+      content: "Well said. At the end of the day, we're all gamers who enjoy playing great games, regardless of the platform!",
+      date: new Date("2023-06-15T12:51")
+    }
+  ]
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react m-2 bg-blue-500" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      <Thread title="PS vs XBOX" posts={discussion}/>
     </>
   )
 }

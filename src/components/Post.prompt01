@@ -1,0 +1,1 @@
+I will start with the component Post.tsx, which represents a single post in a thread. As props it should receive the username to display, the text it contains and the date. Also implement styling using tailwind.

@@ -1,0 +1,2 @@
+I need dummy data for a single thread of an online forum. The data should be a list of javascript objects with keys 'username', 'content', 'date'.
+The data should represent a discussion about Xbox vs Playstation between two users, it should be coherent and the date values should make sense. It should have about 10 elements. The date should be in the format "YYYY-MM-DDTHH:mm"

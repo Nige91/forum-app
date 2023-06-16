@@ -1,0 +1,1 @@
+Next i would like to create the Thread.tsx component, which contains a title and a list of posts. As props it should receive the title and a list of objects containing username, content and date. Write the component by using the component Post.tsx from before and do the styling using tailwind.
