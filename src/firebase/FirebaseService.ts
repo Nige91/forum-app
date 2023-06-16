@@ -2,8 +2,8 @@ import {db} from "./firebase.ts"
 // @ts-ignore
 import firebase from "firebase/compat";
 import Firestore = firebase.firestore.Firestore;
-import { collection, query, getDocs } from "firebase/firestore";
-import {convertDtoToPostData} from "../converter.ts";
+import { collection, query, getDocs, addDoc } from "firebase/firestore";
+import {convertDtoToPostData, convertPostDataToDTO} from "../converter.ts";
 
 
 
@@ -22,6 +22,16 @@ class FirebaseService {
     const q = query(collection(db, "posts"));
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => convertDtoToPostData(doc.data() as PostDataDTO) );
+  }
+
+  async sendPost(post:PostData) {
+    return addDoc(collection(db, "posts"), convertPostDataToDTO(post))
+  }
+
+  async sendPosts(posts:PostData[]){
+    for(let post of posts){
+      await this.sendPost(post)
+    }
   }
 }
 
