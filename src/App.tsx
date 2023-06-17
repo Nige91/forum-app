@@ -9,7 +9,7 @@ function App() {
     FirebaseService.getPosts().then(posts =>{
       setPosts(posts)
     })
-  })
+  }, [])
 
   return (
     <>
