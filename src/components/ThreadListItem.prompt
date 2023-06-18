@@ -1,0 +1,2 @@
+Now I want to create a component that represents an item in a list of threads, for the overview of the different threads in the forum. The component is called, ThreadListItem.
+As props this component receives a thread object containing the fields 'title', 'threadId', 'date' and 'creator'. It should display title date and creator and when clicking on it, it should open a new page through the router that contains the threadId in its path.

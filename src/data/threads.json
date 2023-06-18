@@ -1,15 +1,18 @@
 [{
   "title": "Discussion about Artificial Intelligence",
   "threadId": "123456",
+  "date": 1677288000000,
   "creator": "JohnDoe"
 },
 {
 "title": "Upcoming Game Releases",
 "threadId": "789012",
+  "date": 1677288000000,
 "creator": "JaneSmith"
 },
 {
 "title": "Favorite Books of All Time",
 "threadId": "345678",
+  "date": 1677288000000,
 "creator": "BookLover123"
 }]

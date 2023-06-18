@@ -1,22 +1,15 @@
-import {Thread} from './components/Thread'
-import {PostData} from "./interfaces.ts";
-import FirebaseService from "./firebase/FirebaseService.ts";
-import {useEffect, useState} from "react";
+
 import { Route, Routes } from 'react-router-dom';
 import JsonUploader from "./views/JsonUploader.tsx";
+import ThreadListView from "./views/ThreadListView.tsx";
+import React from "react";
+import ThreadItemView from "./views/ThreadItemView.tsx";
 function App() {
-  const [posts, setPosts] = useState<PostData[]>([])
-  useEffect(()=>{
-    FirebaseService.getPosts().then(posts =>{
-      setPosts(posts)
-      console.log('test')
-    })
-  }, [])
-
   return (
     <>
       <Routes>
-        <Route path='/' element={<Thread title="PS vs XBOX" posts={posts}/>}/>
+        <Route path='/' element={<ThreadListView/>}/>
+        <Route path='/thread/:threadId' element={<ThreadItemView/>}/>
         <Route path='/json' element={<JsonUploader/>}/>
       </Routes>
     </>
