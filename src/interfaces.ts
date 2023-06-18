@@ -7,5 +7,5 @@ export interface PostData {
 export interface PostDataDTO {
   username: string;
   content: string;
-  date: string;
+  date: number;
 }

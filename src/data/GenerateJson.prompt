@@ -1,0 +1,7 @@
+I need json data that represents different threads in a forum. The data should contain the fields 'title', 'threadId', 'creator'. create me 3 elements
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Ok, now I need posts for every thread. every post should contain the fields 'username', 'content', 'date' and 'threadId'.
+date contains the the date the post was posted, as seconds since 1970. threadId should contain a reference to one of the three threads you just created.
+Create 5-15 posts for every thread, formatted in json as a list of objects.
