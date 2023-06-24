@@ -5,17 +5,17 @@ import ThreadListView from "./views/ThreadListView.tsx";
 import React from "react";
 import ThreadItemView from "./views/ThreadItemView.tsx";
 import LoginPage from "./views/LoginPage.tsx";
-import {firebaseApp} from "./firebase/firebase.ts";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {auth} from "./firebase/firebase.ts";
+import { onAuthStateChanged } from "firebase/auth";
 import {useState, useEffect} from "react";
 import firebase from "firebase/compat";
 import User = firebase.User;
 import {FaSpinner} from "react-icons/fa";
+import Toolbar from "./components/Toolbar.tsx";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const auth = getAuth(firebaseApp)
 
   useEffect(() => {
     // Listen for changes in the user's authentication state
@@ -41,7 +41,7 @@ function App() {
   if(user){
     return (
       <>
-        
+        <Toolbar/>
         <Routes>
           <Route path='/' element={<ThreadListView/>}/>
           <Route path='/thread/:threadId' element={<ThreadItemView/>}/>

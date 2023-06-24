@@ -1,14 +1,12 @@
 import {useState} from "react";
-import {firebaseApp} from "../firebase/firebase.ts";
+import {auth} from "../firebase/firebase.ts";
 import {ChangeEvent} from "react";
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-
-  const auth = getAuth(firebaseApp)
 
   const googleAuthProvider = new GoogleAuthProvider()
 
@@ -29,33 +27,26 @@ function LoginPage() {
 
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // User signup successful
       const user = userCredential.user;
-      // Additional actions (e.g., redirecting to a new page)
+      console.log(user)
     })
     .catch((error) => {
-      // Handle signup errors
-      const errorCode = error.code;
       const errorMessage = error.message;
       setError(errorMessage);
     });
   };
 
   const handleLogin = () => {
-    // Input validation
     if (!email || !password) {
       setError('Please enter both email and password.');
       return;
     }
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // User login successful
       const user = userCredential.user;
-      // Additional actions (e.g., redirecting to a new page)
+      console.log(user)
     })
     .catch((error) => {
-      // Handle login errors
-      const errorCode = error.code;
       const errorMessage = error.message;
       setError(errorMessage);
     });
@@ -67,14 +58,12 @@ function LoginPage() {
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         if (credential) {
-          const token = credential.accessToken;
           const user = result.user
+          console.log(user, credential.signInMethod)
         }
       }).catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.customData.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
+      const errorMessage = error.message;
+      setError(errorMessage);
     });
   };
 
