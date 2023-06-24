@@ -1,4 +1,3 @@
-
 import { Route, Routes } from 'react-router-dom';
 import JsonUploader from "./views/JsonUploader.tsx";
 import ThreadListView from "./views/ThreadListView.tsx";
@@ -12,6 +11,8 @@ import firebase from "firebase/compat";
 import User = firebase.User;
 import {FaSpinner} from "react-icons/fa";
 import Toolbar from "./components/Toolbar.tsx";
+import {DialogProvider} from "./context/DialogContext.tsx";
+import Dialog from "./components/Dialog.tsx";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -41,12 +42,15 @@ function App() {
   if(user){
     return (
       <>
-        <Toolbar/>
-        <Routes>
-          <Route path='/' element={<ThreadListView/>}/>
-          <Route path='/thread/:threadId' element={<ThreadItemView/>}/>
-          <Route path='/json' element={<JsonUploader/>}/>
-        </Routes>
+        <DialogProvider>
+          <Toolbar/>
+          <Routes>
+            <Route path='/' element={<ThreadListView/>}/>
+            <Route path='/thread/:threadId' element={<ThreadItemView/>}/>
+            <Route path='/json' element={<JsonUploader/>}/>
+          </Routes>
+          <Dialog/>
+        </DialogProvider>
       </>
     )
   }
