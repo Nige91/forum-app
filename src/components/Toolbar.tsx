@@ -5,10 +5,15 @@ import DropdownButton from "./DropdownButton.tsx";
 function Toolbar() {
   const [user] = useAuthState(auth)
 
+  const handleSignOut = () => {
+    //TODO error handling
+    auth.signOut()
+  }
+
   const options = [
     {
       label: "Sign Out",
-      action: () => console.log("Sign out clicked"),
+      action: handleSignOut,
       class: 'text-red-500',
     },
     {
