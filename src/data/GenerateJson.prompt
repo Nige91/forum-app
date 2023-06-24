@@ -1,7 +1,21 @@
-I need json data that represents different threads in a forum. The data should contain the fields 'title', 'threadId', 'creator'. create me 3 elements
-
------------------------------------------------------------------------------------------------------------------------
-
-Ok, now I need posts for every thread. every post should contain the fields 'username', 'content', 'date' and 'threadId'.
-date contains the the date the post was posted, as seconds since 1970. threadId should contain a reference to one of the three threads you just created.
-Create 5-15 posts for every thread, formatted in json as a list of objects.
+I need json data to populate the different collections in my firestore database. the json should be a dictionary with a key for every collection.
+Behind everyone of those keys should be an array that contains the different documents of the collection.
+I'm gonna list every collection with the number of documents to create and with the corresponding fields and an explanation what each field is.
+I want you to create a large json object that contains the specified number of documents for each of the collections.
+Here are the collections that should be contained in the json:
+users:
+    id: mail address of the user
+    name: displayed name of the user
+    create 5 documents
+threads:
+    creator: a reference to the field users:id
+    date: creation date in milliseconds since epoch
+    threadId: id of the thread
+    title: title of the thread, describing what the thread is about
+    create 3 documents
+posts:
+    content: the message of the post
+    date: creation date in milliseconds since epoch
+    threadId: reference to the field threads:threadId
+    creator: a reference to the field users:id
+    create 3-6 documents for every thread

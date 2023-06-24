@@ -1,11 +1,11 @@
 export interface PostData {
-  username: string;
+  creator: string;
   content: string;
   date: Date;
 }
 
 export interface PostDataDTO {
-  username: string;
+  creator: string;
   content: string;
   date: number;
 }

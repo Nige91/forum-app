@@ -40,10 +40,12 @@ class FirebaseService {
     }
   }
 
-  async addDataFromJson(collectionName: string, jsonString: string): Promise<void> {
+  async addDataFromJson(jsonString: string): Promise<void> {
     const data: any[] = JSON.parse(jsonString);
-    for(let item of data){
-      await addDoc(collection(this.db, collectionName), item)
+    for(let coll in data){
+      for(let item of data[coll]){
+        await addDoc(collection(this.db, coll), item)
+      }
     }
   }
 }

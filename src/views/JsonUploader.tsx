@@ -2,21 +2,14 @@ import React, { useState } from 'react';
 import FirebaseService from "../firebase/FirebaseService.ts";
 
 const JsonUploader: React.FC = () => {
-  const [collectionName, setCollectionName] = useState('');
   const [json, setJson] = useState('');
 
   const handleUpload = async () => {
-    await FirebaseService.addDataFromJson(collectionName, json);
+    await FirebaseService.addDataFromJson(json);
   };
 
   return (
     <div className="w-full max-w-md mx-auto p-4 my-4 bg-white rounded-md shadow-md">
-      <input
-        className="w-full px-3 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-        placeholder="Collection Name"
-        value={collectionName}
-        onChange={e => setCollectionName(e.target.value)}
-      />
       <textarea
         className="w-full h-64 px-3 py-2 mb-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
         placeholder="JSON Data"
