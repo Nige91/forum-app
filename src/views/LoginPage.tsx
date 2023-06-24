@@ -1,12 +1,14 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {auth} from "../firebase/firebase.ts";
 import {ChangeEvent} from "react";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup} from "firebase/auth"
+import DialogContext from "../context/DialogContext.tsx";
 
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const {openDialog} = useContext(DialogContext)
 
   const googleAuthProvider = new GoogleAuthProvider()
 
@@ -53,15 +55,7 @@ function LoginPage() {
   };
 
   const handleGoogleLogin = () => {
-    //TODO correct error handling
-    signInWithPopup(auth, googleAuthProvider)
-      .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        if (credential) {
-          const user = result.user
-          console.log(user, credential.signInMethod)
-        }
-      }).catch((error) => {
+    signInWithPopup(auth, googleAuthProvider).catch((error) => {
       const errorMessage = error.message;
       setError(errorMessage);
     });

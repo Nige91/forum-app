@@ -1,13 +1,22 @@
 import {auth} from "../firebase/firebase.ts";
 import {useAuthState} from "react-firebase-hooks/auth";
 import DropdownButton from "./DropdownButton.tsx";
+import {useContext} from "react";
+import DialogContext from "../context/DialogContext.tsx";
 
 function Toolbar() {
   const [user] = useAuthState(auth)
+  const {openDialog} = useContext(DialogContext)
 
   const handleSignOut = () => {
-    //TODO error handling
-    auth.signOut()
+    auth.signOut().catch((error) =>{
+      if(error.message){
+        openDialog(error.message)
+      }
+      else{
+        openDialog('unknown error')
+      }
+    })
   }
 
   const options = [
@@ -18,7 +27,7 @@ function Toolbar() {
     },
     {
       label: "Settings",
-      action: () => console.log("Settings clicked"),
+      action: () => openDialog('Your message here'),
       class: 'text-blue-500',
     },
   ];

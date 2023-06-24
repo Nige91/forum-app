@@ -32,7 +32,6 @@ function App() {
   }, []);
 
   if(loading){
-    //TODO loading icon
     return(
       <div className="flex items-center justify-center h-screen">
         <FaSpinner className="animate-spin text-blue-500 text-4xl" />
@@ -55,7 +54,10 @@ function App() {
     )
   }
   else{
-    return <LoginPage/>
+    return <DialogProvider>
+      <LoginPage/>
+      <Dialog/>
+    </DialogProvider>
   }
 }
 
