@@ -1,0 +1,1 @@
+docker run --rm --name postgres-container -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 -v $(pwd)/../schema/schema.sql:/docker-entrypoint-initdb.d/aschema.sql -v $(pwd)/../dummy/dummy.sql:/docker-entrypoint-initdb.d/bdummy_data.sql postgres

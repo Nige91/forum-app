@@ -1,0 +1,15 @@
+can you create a postgres schema.sql file for me? there should be 3 tables with the following fields:
+account:
+    id: string primary key
+    name: string
+thread:
+    id: string primary key
+    creator: foreign key to the field account:id
+    date: date
+    title: string
+post:
+    id: string primary key
+    content: string
+    date: date
+    threadId: foreign key to the field thread:id
+    creator: a foreign key  to the field account:id

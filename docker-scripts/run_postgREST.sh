@@ -1,0 +1,1 @@
+docker run --rm --name postgrest-container --link postgres-container -e PGRST_DB_URI=postgres://postgres:mysecretpassword@postgres-container:5432/postgres -e PGRST_DB_SCHEMA=public -e PGRST_DB_ANON_ROLE=postgres -p 3000:3000 postgrest/postgrest
