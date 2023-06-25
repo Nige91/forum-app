@@ -1,19 +1,27 @@
 CREATE TABLE account (
-  id VARCHAR(36) PRIMARY KEY,
-  name VARCHAR(255)
+    id UUID PRIMARY KEY,
+    name VARCHAR(255)
 );
 
 CREATE TABLE thread (
-  id VARCHAR(36) PRIMARY KEY,
-  creator VARCHAR(36) REFERENCES account (id),
-  date DATE,
-  title VARCHAR(255)
+    id UUID PRIMARY KEY,
+    creator_id UUID REFERENCES account (id),
+    date bigint,
+    title VARCHAR(255)
 );
 
 CREATE TABLE post (
-  id VARCHAR(36) PRIMARY KEY,
-  content VARCHAR(255),
-  date DATE,
-  threadId VARCHAR(36) REFERENCES thread (id),
-  creator VARCHAR(36) REFERENCES account (id)
+    id UUID PRIMARY KEY,
+    content VARCHAR(255),
+    date bigint,
+    thread_id UUID REFERENCES thread (id),
+    creator_id UUID REFERENCES account (id)
 );
+
+create or replace function creator(post) returns setof account rows 1 as $$
+  select * from account where id = $1.creator_id
+$$ stable language sql;
+
+create or replace function creator(thread) returns setof account rows 1 as $$
+  select * from account where id = $1.creator_id
+$$ stable language sql;

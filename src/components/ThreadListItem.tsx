@@ -11,7 +11,7 @@ const ThreadListItem: React.FC<ThreadListItemProps> = ({ thread }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/thread/${thread.threadId}`);
+    navigate(`/thread/${thread.id}`);
   };
 
   return (
@@ -22,7 +22,7 @@ const ThreadListItem: React.FC<ThreadListItemProps> = ({ thread }) => {
       <h2 className="text-lg font-semibold text-blue-600">{thread.title}</h2>
       <div className="flex items-center justify-between">
         <span className="text-sm text-gray-500">{format(thread.date, 'PPpp')}</span>
-        <span className="text-sm font-bold text-gray-700">{thread.creator}</span>
+        <span className="text-sm font-bold text-gray-700">{thread.creator.name}</span>
       </div>
     </div>
   );

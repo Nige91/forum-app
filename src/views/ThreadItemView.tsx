@@ -1,22 +1,38 @@
-import React, {useEffect, useState} from 'react';
-import FirebaseService from "../firebase/FirebaseService.ts";
+import React, {useContext, useEffect, useState} from 'react';
 import {PostData} from "../interfaces.ts";
 import Post from "../components/Post.tsx";
 import { useParams } from 'react-router-dom';
+import PostgrestService from "../service/PostgrestService.ts";
+import {Thread} from "../components/Thread.tsx";
+import DialogContext from "../context/DialogContext.tsx";
+import LoadingSpinner from "../components/LoadingSpinner.tsx";
 
 const ThreadItemView: React.FC = () => {
   const [posts, setPosts] = useState<PostData[]>([])
+  const [loading, setLoading] = useState(true)
   const { threadId } = useParams();
-    useEffect(() => {
-      if (typeof threadId === 'string') {
-        FirebaseService.getPosts(threadId).then(posts => {
-          setPosts(posts)
-          console.log('test')
-        })
-      }
-    }, [])
+  const {openDialog} = useContext(DialogContext)
 
-  return posts.map(post=><Post post={post}/>)
+  useEffect(() => {
+    if (typeof threadId === 'string') {
+      PostgrestService.getPosts(threadId).then(posts => {
+        if(!posts || posts.length === 0){
+          openDialog('Error: no posts available!')
+        }
+        else{
+          setPosts(posts)
+          setLoading(false)
+        }
+      })
+    }
+  }, [])
+
+  if(loading){
+    return <LoadingSpinner/>
+  }
+  else{
+    return <Thread posts={posts} title={posts[0].thread.title} />
+  }
 };
 
 export default ThreadItemView;

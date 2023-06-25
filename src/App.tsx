@@ -1,5 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
-import JsonUploader from "./views/JsonUploader.tsx";
+import { Route, Routes } from 'react-router-dom'
 import ThreadListView from "./views/ThreadListView.tsx";
 import React from "react";
 import ThreadItemView from "./views/ThreadItemView.tsx";
@@ -9,10 +8,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import {useState, useEffect} from "react";
 import firebase from "firebase/compat";
 import User = firebase.User;
-import {FaSpinner} from "react-icons/fa";
 import Toolbar from "./components/Toolbar.tsx";
 import {DialogProvider} from "./context/DialogContext.tsx";
 import Dialog from "./components/Dialog.tsx";
+import LoadingSpinner from "./components/LoadingSpinner.tsx";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -33,9 +32,7 @@ function App() {
 
   if(loading){
     return(
-      <div className="flex items-center justify-center h-screen">
-        <FaSpinner className="animate-spin text-blue-500 text-4xl" />
-      </div>
+      <LoadingSpinner/>
     )
   }
   if(user){
@@ -46,7 +43,6 @@ function App() {
           <Routes>
             <Route path='/' element={<ThreadListView/>}/>
             <Route path='/thread/:threadId' element={<ThreadItemView/>}/>
-            <Route path='/json' element={<JsonUploader/>}/>
           </Routes>
           <Dialog/>
         </DialogProvider>

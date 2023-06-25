@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import FirebaseService from "../firebase/FirebaseService.ts";
+import React, {useEffect, useState} from 'react'
 import {ThreadData} from "../interfaces.ts";
 import ThreadListItem from "../components/ThreadListItem.tsx";
+import PostgrestService from "../service/PostgrestService.ts";
 
 const ThreadListView: React.FC = () => {
   const [threads, setThreads] = useState<ThreadData[]>([])
   useEffect(()=>{
-    FirebaseService.getThreads().then(threads =>{
+    PostgrestService.getThreads().then(threads =>{
       setThreads(threads)
       console.log('test')
     })
