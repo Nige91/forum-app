@@ -1,6 +1,8 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import {PostData, PostDataInDTO, ThreadData, ThreadDataInDTO} from "../interfaces.ts";
+import {PostData, PostDataInDTO, PostDataOutDTO, ThreadData, ThreadDataInDTO} from "../interfaces.ts";
 import {convertDtoInToPostData, convertDtoInToThreadData} from "../converter.ts";
+import { v4 as uuidv4 } from 'uuid';
+
 
 class PostgrestService {
   private baseUrl: string;
@@ -39,10 +41,26 @@ class PostgrestService {
     return response.data.map(dto=> convertDtoInToPostData(dto))
   }
 
+  public async addPost(content: string, userId: string, threadId: string): Promise<AxiosResponse> {
+    let data: PostDataOutDTO = {
+      id: uuidv4(),
+      content: content,
+      date: new Date().getTime(),
+      thread_id: threadId,
+      creator_id: userId
+    }
+    return await this.post('post', data)
+  }
+
   private async fetch(route: string, params?: Record<string, string>): Promise<AxiosResponse> {
     const config: AxiosRequestConfig = { params };
     //axios automatically throws error from request
     return await axios.get(`${this.baseUrl}/${route}`, config);
+  }
+
+  private async post(route: string, data: object, params?: Record<string, string>): Promise<AxiosResponse> {
+    const config: AxiosRequestConfig = { params };
+    return await axios.post(`${this.baseUrl}/${route}`, data, config);
   }
 }
 
