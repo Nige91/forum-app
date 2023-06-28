@@ -8,8 +8,17 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { BrowserRouter } from 'react-router-dom';
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {deepOrange, deepPurple} from "@mui/material/colors";
 
 const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: deepPurple,
+    secondary: deepOrange,
+    background: {
+      default: "#222222"
+    },
+  },
   typography: {
     fontFamily: 'Roboto, sans-serif', // Set Roboto as the default font
   },

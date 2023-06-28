@@ -1,48 +1,68 @@
-import {auth} from "../firebase/firebase.ts";
-import {useAuthState} from "react-firebase-hooks/auth";
-import DropdownButton from "./DropdownButton.tsx";
-import {useContext} from "react";
+import { auth } from "../firebase/firebase.ts";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useContext, useState } from "react";
 import DialogContext from "../context/DialogContext.tsx";
+import { AppBar, Toolbar, Typography, IconButton, MenuItem, Menu } from '@mui/material';
+import {Settings} from '@mui/icons-material'
 
-function Toolbar() {
+function AppToolbar() {
   const [user] = useAuthState(auth)
-  const {openDialog} = useContext(DialogContext)
+  const { openDialog } = useContext(DialogContext)
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleSignOut = () => {
-    auth.signOut().catch((error) =>{
-      if(error.message){
+    auth.signOut().catch((error) => {
+      if (error.message) {
         openDialog(error.message)
-      }
-      else{
+      } else {
         openDialog('unknown error')
       }
     })
   }
 
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const options = [
     {
       label: "Sign Out",
       action: handleSignOut,
-      class: 'text-red-500',
     },
     {
       label: "Settings",
       action: () => openDialog('Your message here'),
-      class: 'text-blue-500',
     },
   ];
 
   return (
-    <div className="flex justify-between items-center p-4 bg-blue-500">
-      <h1 className="text-white">Welcome, {user && user.email}</h1>
-      <DropdownButton
-        buttonText="Menu"
-        options={options}
-        buttonClass="w-16 h-16 bg-red-500 rounded-full text-white"
-        dropdownClass="origin-top-right absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5"
-      />
-    </div>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" style={{ flexGrow: 1 }}>
+          Welcome, {user && user.email}
+        </Typography>
+        <IconButton color="inherit" onClick={handleClick}>
+          <Settings />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          {options.map((option, index) => (
+            <MenuItem onClick={() => {option.action(); handleClose();}} key={index}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </Menu>
+      </Toolbar>
+    </AppBar>
   );
 }
 
-export default Toolbar;
+export default AppToolbar;

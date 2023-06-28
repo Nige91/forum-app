@@ -5,6 +5,7 @@ import NewPost from "./NewPost.tsx";
 import PostgrestService from "../service/PostgrestService.ts";
 import DialogContext from "../context/DialogContext.tsx";
 import {AxiosError} from "axios";
+import { Button, Card, CardContent, Typography } from '@mui/material';
 
 interface ThreadProps {
   title: string;
@@ -14,23 +15,27 @@ interface ThreadProps {
 
 const Thread: React.FC<ThreadProps> = ({ title, posts, onPostAdded}) => {
   const {openDialog} = useContext(DialogContext)
+
   function addPost(content: string) {
     PostgrestService.addPost(content, '26830081-177e-45e4-abe4-9a224ed09ec7', posts[0].thread.id).then(()=>{
       onPostAdded();
     }).catch((error: AxiosError)=>{
-      //TODO test
       openDialog(error.toString())
     })
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 my-4 bg-gray-100 rounded-md shadow-md">
-      <h1 className="mb-4 text-2xl font-bold text-blue-700">{title}</h1>
-      {posts.map(post => (
-        <Post key={post.id} post={post} />
-      ))}
-      <NewPost addPost={addPost} />
-    </div>
+    <Card variant="outlined">
+      <CardContent>
+        <Typography variant="h4" color="secondary">{title}</Typography>
+        {posts.map(post => (
+          <div className="my-2">
+            <Post  key={post.id} post={post}/>
+          </div>
+        ))}
+        <NewPost addPost={addPost} />
+      </CardContent>
+    </Card>
   );
 };
 

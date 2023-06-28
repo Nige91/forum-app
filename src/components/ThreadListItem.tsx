@@ -1,7 +1,8 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
-import {format} from 'date-fns';
-import {ThreadData} from "../interfaces.ts";
+import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { ThreadData } from "../interfaces.ts";
+import {Card, CardContent, Grid, Typography} from '@mui/material';
 
 interface ThreadListItemProps {
   thread: ThreadData;
@@ -15,16 +16,28 @@ const ThreadListItem: React.FC<ThreadListItemProps> = ({ thread }) => {
   };
 
   return (
-    <div
-      className="w-full px-4 py-2 mb-2 bg-white rounded-md shadow-md cursor-pointer hover:bg-gray-100"
+    <Card
+      style={{ marginBottom: "10px", cursor: "pointer" }}
       onClick={handleClick}
     >
-      <h2 className="text-lg font-semibold text-blue-600">{thread.title}</h2>
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-gray-500">{format(thread.date, 'PPpp')}</span>
-        <span className="text-sm font-bold text-gray-700">{thread.creator.name}</span>
-      </div>
-    </div>
+      <CardContent>
+        <Grid container>
+          <Grid item xs={8}>
+            <Typography variant="h5" color="primary">
+              {thread.title}
+            </Typography>
+          </Grid>
+          <Grid item xs={4}>
+            <Typography className='text-right' variant="body2" color="textSecondary">
+              {format(thread.date, 'PPpp')}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Typography className="pt-4" variant="body2">
+          {thread.creator.name}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
