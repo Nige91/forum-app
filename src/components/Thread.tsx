@@ -29,7 +29,7 @@ const Thread: React.FC<ThreadProps> = ({ title, posts, onPostAdded}) => {
       <CardContent>
         <Typography variant="h4" color="secondary">{title}</Typography>
         {posts.map(post => (
-          <div className="my-2">
+          <div className="my-4">
             <Post  key={post.id} post={post}/>
           </div>
         ))}

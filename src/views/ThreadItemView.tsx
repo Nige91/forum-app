@@ -41,7 +41,7 @@ const ThreadItemView: React.FC = () => {
     return <LoadingSpinner/>
   }
   else{
-    return <Thread posts={posts} title={posts[0].thread.title} onPostAdded={handlePostAdded} />
+    return <div className="max-w-prose mx-auto"><Thread posts={posts} title={posts[0].thread.title} onPostAdded={handlePostAdded}/></div>
   }
 };
 

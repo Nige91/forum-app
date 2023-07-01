@@ -16,7 +16,7 @@ const theme = createTheme({
     primary: deepPurple,
     secondary: deepOrange,
     background: {
-      default: "#222222"
+      default: "#333333"
     },
   },
   typography: {
