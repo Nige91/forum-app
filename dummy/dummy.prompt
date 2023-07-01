@@ -1,3 +1,1 @@
-Create an sql script to populate a postgresql database with the following schema. The data represents posts in a forum, write meaningful data. The script should contain 3 accounts, 3 threads and 5 posts for every thread. Don't forget to escape the quotes
-
-{{ Paste tables from schema.sql }}
+Create an sql script to populate a postgresql database having the schema specified at the end. The data is needed as dummy data for a forum. I need lots and lots of data. I need 50 threads grouped into 5 different topics. Every thread should have at least 10 posts and every post should have at least 50 words. Do not give me an answer with less than the required amounts. So i repeat, at least 5 topics, 50 threads, 500 posts and at least 50 words per post. Do not generate me less than what I asked. I say it again, at least 5 topics, 50 threads, 500 posts and at least 50 words per post, do not give me an answer with any less.

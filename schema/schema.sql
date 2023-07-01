@@ -3,16 +3,22 @@ CREATE TABLE account (
     name VARCHAR(255)
 );
 
+CREATE TABLE topic (
+    id UUID PRIMARY KEY,
+    title VARCHAR(255)
+);
+
 CREATE TABLE thread (
     id UUID PRIMARY KEY,
     creator_id UUID REFERENCES account (id),
+    topic_id UUID REFERENCES topic (id),
     date bigint,
     title VARCHAR(255)
 );
 
 CREATE TABLE post (
     id UUID PRIMARY KEY,
-    content VARCHAR(255),
+    content TEXT,
     date bigint,
     thread_id UUID REFERENCES thread (id),
     creator_id UUID REFERENCES account (id)
