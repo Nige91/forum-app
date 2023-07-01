@@ -54,3 +54,8 @@ export interface ThreadDataInDTO {
   title: string;
   date: number;
 }
+
+export interface TopicData {
+  id: string;
+  title: string;
+}

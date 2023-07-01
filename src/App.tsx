@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import ThreadListView from "./views/ThreadListView.tsx";
 import React from "react";
 import ThreadItemView from "./views/ThreadItemView.tsx";
@@ -12,6 +12,8 @@ import Toolbar from "./components/Toolbar.tsx";
 import {DialogProvider} from "./context/DialogContext.tsx";
 import Dialog from "./components/Dialog.tsx";
 import LoadingSpinner from "./components/LoadingSpinner.tsx";
+import PostgrestService from "./service/PostgrestService.ts";
+import TopicListView from "./views/TopicListView.tsx";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -30,6 +32,26 @@ function App() {
     };
   }, []);
 
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <TopicListView />,
+      loader: () => PostgrestService.getTopics()
+    },
+    {
+      path: '/topic/:topicId',
+      element: <ThreadListView />,
+      // @ts-ignore
+      loader: ({params: {topicId}}:{params: {topicId: string}}) => PostgrestService.getThreads(topicId)
+    },
+    {
+      path: '/thread/:threadId',
+      element: <ThreadItemView />,
+      // @ts-ignore
+      loader: ({params: {threadId}}:{params: {threadId: string}}) => PostgrestService.getPosts(threadId)
+    },
+  ]);
+
   if(loading){
     return(
       <LoadingSpinner/>
@@ -40,10 +62,7 @@ function App() {
       <>
         <DialogProvider>
           <Toolbar/>
-          <Routes>
-            <Route path='/' element={<ThreadListView/>}/>
-            <Route path='/thread/:threadId' element={<ThreadItemView/>}/>
-          </Routes>
+          <RouterProvider router={router} />
           <Dialog/>
         </DialogProvider>
       </>

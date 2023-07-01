@@ -1,16 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {ThreadData} from "../interfaces.ts";
 import ThreadListItem from "../components/ThreadListItem.tsx";
-import PostgrestService from "../service/PostgrestService.ts";
+import {useLoaderData} from "react-router-dom";
 
 const ThreadListView: React.FC = () => {
-  const [threads, setThreads] = useState<ThreadData[]>([])
-  useEffect(()=>{
-    PostgrestService.getThreads().then(threads =>{
-      setThreads(threads)
-      console.log('test')
-    })
-  }, [])
+  const threads = useLoaderData() as ThreadData[] ;
 
   return (
     threads.map(thread=><ThreadListItem thread={thread}/>)

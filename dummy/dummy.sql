@@ -4,7 +4,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 -- Generate Accounts
 DO $$
 DECLARE
-   user_names TEXT[] := ARRAY['Alice', 'Bob', 'Charlie', 'Dave', 'Eve'];
+   user_names TEXT[] := ARRAY['Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Adam', 'Carl'];
    i INTEGER;
 BEGIN
    FOR i IN 1..array_upper(user_names, 1) LOOP
@@ -47,7 +47,7 @@ BEGIN
 
    FOR i IN 1..200 LOOP
       INSERT INTO thread (id, creator_id, topic_id, date, title)
-      VALUES (gen_random_uuid(), accounts[1 + ((i-1)%5)], topics[1 + ((i-1)%5)], EXTRACT(EPOCH FROM NOW()), thread_titles[1 + ((i-1)%10)]);
+      VALUES (gen_random_uuid(), accounts[1 + ((i-1)%7)], topics[1 + ((i-1)%5)], EXTRACT(EPOCH FROM NOW() + ((i-10000) * INTERVAL '1 minute'))*1000, thread_titles[1 + ((i-1)%10)]);
    END LOOP;
 END $$;
 
@@ -64,6 +64,6 @@ BEGIN
 
    FOR i IN 1..10000 LOOP
       INSERT INTO post (id, content, date, thread_id, creator_id)
-      VALUES (gen_random_uuid(), lorem, EXTRACT(EPOCH FROM NOW()), threads[1 + ((i-1)%200)], accounts[1 + ((i-1)%5)]);
+      VALUES (gen_random_uuid(), lorem, EXTRACT(EPOCH FROM NOW() + ((i-10000) * INTERVAL '1 minute'))*1000, threads[1 + ((i-1)%200)], accounts[1 + ((i-1)%7)]);
    END LOOP;
 END $$;

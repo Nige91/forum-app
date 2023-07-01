@@ -5,20 +5,22 @@ import NewPost from "./NewPost.tsx";
 import PostgrestService from "../service/PostgrestService.ts";
 import DialogContext from "../context/DialogContext.tsx";
 import {AxiosError} from "axios";
-import { Button, Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
+import {useLocation, useNavigate} from "react-router-dom";
 
 interface ThreadProps {
   title: string;
   posts: PostData[];
-  onPostAdded: () => void
 }
 
-const Thread: React.FC<ThreadProps> = ({ title, posts, onPostAdded}) => {
+const Thread: React.FC<ThreadProps> = ({ title, posts}) => {
   const {openDialog} = useContext(DialogContext)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   function addPost(content: string) {
-    PostgrestService.addPost(content, '26830081-177e-45e4-abe4-9a224ed09ec7', posts[0].thread.id).then(()=>{
-      onPostAdded();
+    PostgrestService.addPost(content, 'cd31450d-2d6e-4cf9-b182-85147f86d438', posts[0].thread.id).then(()=>{
+      navigate(location.pathname, { replace: true })
     }).catch((error: AxiosError)=>{
       openDialog(error.toString())
     })
