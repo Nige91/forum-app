@@ -1,5 +1,13 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
-import {PostData, PostDataInDTO, PostDataOutDTO, ThreadData, ThreadDataInDTO, TopicData} from "../interfaces.ts";
+import {
+  User,
+  PostData,
+  PostDataInDTO,
+  PostDataOutDTO,
+  ThreadData,
+  ThreadDataInDTO,
+  TopicData
+} from "../interfaces.ts";
 import {convertDtoInToPostData, convertDtoInToThreadData} from "../converter.ts";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,6 +17,17 @@ class PostgrestService {
 
   constructor() {
     this.baseUrl = 'http://localhost:3000';
+  }
+
+  public async getOrInsertUser(userId: string): Promise<User> {
+    //TODO error handling
+    const response: AxiosResponse<User[]> = await this.fetch('account', {select: '*', id: `eq.${userId}`})
+    if(!response.data || response.data.length == 0){
+      let username = userId.split('@')[0]
+      const responsePost: AxiosResponse<User> = await this.post('account', {id: userId, name: username})
+      return responsePost.data
+    }
+    return response.data[0]
   }
 
   public async getTopics(): Promise<TopicData[]> {
@@ -49,6 +68,9 @@ class PostgrestService {
 
   private async post(route: string, data: object, params?: Record<string, string>): Promise<AxiosResponse> {
     const config: AxiosRequestConfig = { params };
+    config.headers = {
+      Prefer: 'return=representation'
+    }
     return await axios.post(`${this.baseUrl}/${route}`, data, config);
   }
 }

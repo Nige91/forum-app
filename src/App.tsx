@@ -1,29 +1,37 @@
 import {createBrowserRouter, RouterProvider} from 'react-router-dom'
 import ThreadListView from "./views/ThreadListView.tsx";
-import React from "react";
+import React, {useContext} from "react";
 import ThreadItemView from "./views/ThreadItemView.tsx";
 import LoginPage from "./views/LoginPage.tsx";
 import {auth} from "./firebase/firebase.ts";
 import { onAuthStateChanged } from "firebase/auth";
 import {useState, useEffect} from "react";
-import firebase from "firebase/compat";
-import User = firebase.User;
 import Toolbar from "./components/Toolbar.tsx";
-import {DialogProvider} from "./context/DialogContext.tsx";
-import Dialog from "./components/Dialog.tsx";
 import LoadingSpinner from "./components/LoadingSpinner.tsx";
 import PostgrestService from "./service/PostgrestService.ts";
 import TopicListView from "./views/TopicListView.tsx";
+import {UserContext} from "./context/UserContext.tsx";
 
 function App() {
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<Account | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const userContext = useContext(UserContext)
+  if(!userContext) throw new Error('Used UserContext outside of provider');
+  const { user, updateUser } = userContext;
 
   useEffect(() => {
     // Listen for changes in the user's authentication state
-    const unsubscribe = onAuthStateChanged(auth,(user) => {
-      setUser(user);
-      setLoading(false)
+    const unsubscribe = onAuthStateChanged(auth,(userFB) => {
+      if(userFB && userFB.email){
+        PostgrestService.getOrInsertUser(userFB.email).then(userPG => {
+          updateUser(userPG);
+          setLoading(false)
+        })
+      }
+      else{
+        setLoading(false)
+      }
     });
 
     // Clean up the listener when the component unmounts
@@ -52,28 +60,21 @@ function App() {
     },
   ]);
 
+
   if(loading){
     return(
       <LoadingSpinner/>
     )
   }
-  if(user){
-    return (
-      <>
-        <DialogProvider>
-          <Toolbar/>
-          <RouterProvider router={router} />
-          <Dialog/>
-        </DialogProvider>
-      </>
-    )
+  if(!user){
+    return <LoginPage/>
   }
-  else{
-    return <DialogProvider>
-      <LoginPage/>
-      <Dialog/>
-    </DialogProvider>
-  }
+  return (
+    <>
+      <Toolbar/>
+      <RouterProvider router={router} />
+    </>
+  )
 }
 
 export default App

@@ -59,3 +59,8 @@ export interface TopicData {
   id: string;
   title: string;
 }
+
+export interface User {
+  id: string;
+  name: string;
+}

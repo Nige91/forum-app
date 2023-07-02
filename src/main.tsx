@@ -8,6 +8,9 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import {deepOrange, deepPurple} from "@mui/material/colors";
+import {DialogProvider} from "./context/DialogContext.tsx";
+import Dialog from "./components/Dialog.tsx";
+import {UserProvider} from "./context/UserContext.tsx";
 
 const theme = createTheme({
   palette: {
@@ -27,7 +30,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App/>
+      <DialogProvider>
+        <UserProvider>
+          <App/>
+          <Dialog/>
+        </UserProvider>
+      </DialogProvider>
     </ThemeProvider>
   </React.StrictMode>,
 )

@@ -4,11 +4,11 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 -- Generate Accounts
 DO $$
 DECLARE
-   user_names TEXT[] := ARRAY['Alice', 'Bob', 'Charlie', 'Dave', 'Eve', 'Adam', 'Carl'];
+   user_names TEXT[] := ARRAY['alice', 'bob', 'charlie', 'dave', 'eve', 'adam', 'carl'];
    i INTEGER;
 BEGIN
    FOR i IN 1..array_upper(user_names, 1) LOOP
-      INSERT INTO account (id, name) VALUES (gen_random_uuid(), user_names[i]);
+      INSERT INTO account (id, name) VALUES (user_names[i] || '@example.com', user_names[i]);
    END LOOP;
 END $$;
 
@@ -39,7 +39,7 @@ DECLARE
       'Best way to cook a steak'
    ];
    i INTEGER := 0;
-   accounts UUID[];
+   accounts VARCHAR(255)[];
    topics UUID[];
 BEGIN
    SELECT array_agg(id) INTO accounts FROM account;
@@ -55,7 +55,7 @@ END $$;
 DO $$
 DECLARE
    i INTEGER := 0;
-   accounts UUID[];
+   accounts VARCHAR(255)[];
    threads UUID[];
    lorem TEXT := 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ';
 BEGIN

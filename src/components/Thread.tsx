@@ -7,6 +7,7 @@ import DialogContext from "../context/DialogContext.tsx";
 import {AxiosError} from "axios";
 import { Card, CardContent, Typography } from '@mui/material';
 import {useLocation, useNavigate} from "react-router-dom";
+import {UserContext} from "../context/UserContext.tsx";
 
 interface ThreadProps {
   title: string;
@@ -18,8 +19,12 @@ const Thread: React.FC<ThreadProps> = ({ title, posts}) => {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const userContext = useContext(UserContext)
+  if(!userContext) throw new Error('Used UserContext outside of provider');
+  const { user } = userContext;
+
   function addPost(content: string) {
-    PostgrestService.addPost(content, 'cd31450d-2d6e-4cf9-b182-85147f86d438', posts[0].thread.id).then(()=>{
+    PostgrestService.addPost(content, user!.id, posts[0].thread.id).then(()=>{
       navigate(location.pathname, { replace: true })
     }).catch((error: AxiosError)=>{
       openDialog(error.toString())

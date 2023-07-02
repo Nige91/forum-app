@@ -1,5 +1,5 @@
 CREATE TABLE account (
-    id UUID PRIMARY KEY,
+    id VARCHAR(255) PRIMARY KEY,
     name VARCHAR(255)
 );
 
@@ -10,7 +10,7 @@ CREATE TABLE topic (
 
 CREATE TABLE thread (
     id UUID PRIMARY KEY,
-    creator_id UUID REFERENCES account (id),
+    creator_id VARCHAR(255) REFERENCES account (id),
     topic_id UUID REFERENCES topic (id),
     date bigint,
     title VARCHAR(255)
@@ -21,7 +21,7 @@ CREATE TABLE post (
     content TEXT,
     date bigint,
     thread_id UUID REFERENCES thread (id),
-    creator_id UUID REFERENCES account (id)
+    creator_id VARCHAR(255) REFERENCES account (id)
 );
 
 create or replace function creator(post) returns setof account rows 1 as $$

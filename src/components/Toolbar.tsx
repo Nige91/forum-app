@@ -1,17 +1,22 @@
 import { auth } from "../firebase/firebase.ts";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useContext, useState } from "react";
+import {SetStateAction, useContext, useState} from "react";
 import DialogContext from "../context/DialogContext.tsx";
 import { AppBar, Toolbar, Typography, IconButton, MenuItem, Menu } from '@mui/material';
 import {Settings} from '@mui/icons-material'
+import {UserContext} from "../context/UserContext.tsx";
 
 function AppToolbar() {
-  const [user] = useAuthState(auth)
   const { openDialog } = useContext(DialogContext)
   const [anchorEl, setAnchorEl] = useState(null);
 
+  const userContext = useContext(UserContext)
+  if(!userContext) throw new Error('Used UserContext outside of provider');
+  const { user, updateUser } = userContext;
+
   const handleSignOut = () => {
-    auth.signOut().catch((error) => {
+    auth.signOut().then(()=>{
+      updateUser(null)
+    }).catch((error) => {
       if (error.message) {
         openDialog(error.message)
       } else {
@@ -43,7 +48,7 @@ function AppToolbar() {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          Welcome, {user && user.email}
+          Welcome, {user && user.name}
         </Typography>
         <IconButton color="inherit" onClick={handleClick}>
           <Settings />
